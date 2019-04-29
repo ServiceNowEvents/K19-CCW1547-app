@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn">
+    <sys_rest_message_fn action="INSERT_OR_UPDATE">
+        <authentication_type>inherit_from_parent</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <content/>
+        <function_name>Knowledgeable Quotes</function_name>
+        <http_method>get</http_method>
+        <lock>false</lock>
+        <oauth2_profile/>
+        <protocol_name/>
+        <qualified_name>Quotes [ Knowledgeable Quotes ]</qualified_name>
+        <rest_endpoint>https://k19fullstackdev.service-now.com/api/x_snc_quotes_gen/quotes/knowledgeable</rest_endpoint>
+        <rest_message display_value="Quotes">d2a44722db4d7b00d449f78eaf96196d</rest_message>
+        <sys_class_name>sys_rest_message_fn</sys_class_name>
+        <sys_created_by>brian.griffith</sys_created_by>
+        <sys_created_on>2019-04-29 16:36:56</sys_created_on>
+        <sys_id>7135c762db4d7b00d449f78eaf9619a2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Knowledgeable Quotes</sys_name>
+        <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
+        <sys_update_name>sys_rest_message_fn_7135c762db4d7b00d449f78eaf9619a2</sys_update_name>
+        <sys_updated_by>brian.griffith</sys_updated_by>
+        <sys_updated_on>2019-04-29 16:36:56</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server/>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message_fn>
+</record_update>
