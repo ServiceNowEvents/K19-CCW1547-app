@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_snc_peerreview.PeerReview</api_name>
+        <client_callable>false</client_callable>
+        <description>Utilities to support working with peer review data. Specifically aimed at supporting different UI's like for service portal.</description>
+        <name>PeerReview</name>
+        <script><![CDATA[var PeerReview = Class.create();
+PeerReview.prototype = {
+	initialize: function() {},
+	getUserData: getUserData,
+	getUserScore: getUserScore,
+	getFeedbackList: getFeedbackList,
+	getQuotes : getQuotes,
+	type: 'PeerReview'
+};
+
+var baseUtils = new Base();
+
+var CONSTANTS = {
+	tables: {
+		qna: 'question_answer'
+	},
+	fields: {
+		user_score: 'sys_id,user,nps_score',
+		feedback: 'sys_id,number,score,receiver,submitter',
+		sys_user: 'sys_id,user_name,name,photo,first_name,last_name',
+		qna: 'sys_id,question,value'
+	},
+	variables: {
+		// feedback: Can add more question names and separate with a coma.
+		feedback: 'question_2' 
+	},
+	short_display_length: 125
+};
+
+/*
+Get the user record data given a user sys_id.
+userId: The sys_id of the user to get records for.
+*/
+function getUserData(userId) {
+	var response,
+		grData = baseUtils.getRecords('sys_user', false, '^sys_id=' + userId),
+		dataList = getRecordsFromGr(grData, CONSTANTS.fields.sys_user);
+	if (dataList && dataList.length == 1) {
+		response = dataList[0];
+		response.initials = response.fields.first_name.value.substring(0,1) +
+			response.fields.last_name.value.substring(0,1);
+	}
+	return response;
+}
+
+/*
+Get the user score data given a user sys_id.
+userId: The sys_id of the user to get records for.
+*/
+function getUserScore(userId) {
+	var response,
+		grData = baseUtils.getRecords(baseUtils.CONSTANTS.tables.user_score, false, '^user=' + userId),
+		dataList = getRecordsFromGr(grData, CONSTANTS.fields.user_score);
+	if (dataList && dataList.length == 1) {
+		response = dataList[0];
+	}
+	return response;
+}
+
+/*
+Get the list of feedback records given a user sys_id.
+userId: The sys_id of the user to get records for.
+*/
+function getFeedbackList(userId) {
+	var response = [],
+		responseObj,
+		i,j,
+		grData = baseUtils.getRecords(baseUtils.CONSTANTS.tables.feedback, false, '^receiver=' + userId),
+		dataList = getRecordsFromGr(grData, CONSTANTS.fields.feedback, getQuestionResponsesList);
+	
+	// Loop through the list of feedback records, then the list of questions being 
+	// retrieved and place into a single array with the author and text.
+	for (i=0; i<dataList.length; i++) {
+		for (j=0; j<dataList[i].variables.length; j++) {
+			responseObj = {
+				fields: dataList[i].fields,
+				sys_id: dataList[i].sys_id,
+				question: dataList[i].variables[j],
+				showMore: false
+			};
+			response.push(responseObj);
+		}
+	}
+	
+	return response;
+}
+
+/*
+Get the questions/answers records given a feedback sys_id.
+feedbackId: The sys_id of the feedback record to get question_answers for.
+*/
+function getQuestionResponsesList(feedbackId) {
+	var response = [],
+		responseObj,
+		grData = baseUtils.getRecords(CONSTANTS.tables.qna, false, '^table_name='+ baseUtils.CONSTANTS.tables.feedback +'^table_sys_id=' + feedbackId);
+
+	while (grData.next()) {
+		if (CONSTANTS.variables.feedback.indexOf(grData.question.name) >= 0) {
+			responseObj = {
+				question_name: grData.question.name +'',
+				question_text: grData.question.question_text +'',
+				answer_full: grData.getValue('value'),
+				answer_short: grData.getValue('value').substring(0,CONSTANTS.short_display_length)
+			};
+			if (responseObj.answer_full.length > CONSTANTS.short_display_length) {
+				responseObj.answer_short += "...";
+			}
+			response.push(responseObj);
+		}
+	}
+	return response;
+}
+
+/*
+Get field data as an array from a given GlideRecord and delimited field list.
+grData: The GlideRecord object to get data out of.
+fields: The coma separated list of field names to extract.
+innerFunc: An optional function to invoke while inside the GlideRecord while loop.
+           This should be any internal operations needed like getting records from
+		   a child table. Example here is theh question_answers from a feedback record.
+*/
+function getRecordsFromGr(grData, fields, innerFunc) {
+	var response = [],
+		responseObj,
+		variableList,
+		i;
+	grData = grData || false;
+	fields = fields || false;
+
+	if (grData && fields) {
+		while (grData.next()) {
+			responseObj = getRecordElementsFromGr(grData,fields);
+
+			// Run any inner function which typically should be
+			// a child GlideRecord extraction.
+			if (innerFunc) {
+				try{
+					variableList = innerFunc.call(this, grData.getValue('sys_id'));
+					if (variableList) {
+						responseObj.variables = variableList;
+					}
+				}catch(ex) {
+					gs.error(ex);
+				}
+			}
+
+			if (responseObj) {
+				response.push(responseObj);
+			}
+		}
+	}
+	return response;
+}
+
+/*
+Given a GlideRecord and delimited field list, extract the GlideRecord field elements.
+grData: The GlideRecord object to get data out of.
+fields: The coma separated list of field names to extract.
+*/
+function getRecordElementsFromGr(grData, fields) {
+	var response;
+	if (grData && fields) {
+		response = {
+			fields: {},
+			sys_id: grData.getValue('sys_id')
+		};
+		$sp.getRecordElements(response.fields, grData, fields);
+	}
+	return response;
+}
+
+function getQuotes(quoteType){
+	quoteType = quoteType || "Random";
+	try { 
+		var restMessage = new sn_ws.RESTMessageV2("Quotes", quoteType + " Quotes");
+		var response = restMessage.execute();
+		var responseBody = response.getBody();
+		var bodyJSON = JSON.parse(responseBody);
+		var httpStatus = response.getStatusCode();
+		baseUtils.logJSON({
+			body : responseBody,
+			status : httpStatus
+		});
+		if(httpStatus != 200){
+			return false;
+		}
+		return bodyJSON.result;
+	}
+	catch(ex) {
+		var message = ex.message;
+		baseUtils.log( message );
+	}
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>brian.griffith</sys_created_by>
+        <sys_created_on>2019-04-29 06:36:40</sys_created_on>
+        <sys_id>89ab3066db857b00d449f78eaf96196c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>PeerReview</sys_name>
+        <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
+        <sys_update_name>sys_script_include_89ab3066db857b00d449f78eaf96196c</sys_update_name>
+        <sys_updated_by>brian.griffith</sys_updated_by>
+        <sys_updated_on>2019-04-29 06:36:40</sys_updated_on>
+    </sys_script_include>
+</record_update>
