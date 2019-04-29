@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_embedded_help_role">
+    <sys_embedded_help_role action="INSERT_OR_UPDATE">
+        <order>10</order>
+        <role display_value="x_snc_peerreview.admin" name="x_snc_peerreview.admin">14a26b9adb817b00d449f78eaf9619cb</role>
+        <sys_class_name>sys_embedded_help_role</sys_class_name>
+        <sys_created_by>brian.griffith</sys_created_by>
+        <sys_created_on>2019-04-29 00:06:57</sys_created_on>
+        <sys_id>7db26b9adb817b00d449f78eaf9619d8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>14a26b9adb817b00d449f78eaf9619cb</sys_name>
+        <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
+        <sys_update_name>sys_embedded_help_role_7db26b9adb817b00d449f78eaf9619d8</sys_update_name>
+        <sys_updated_by>brian.griffith</sys_updated_by>
+        <sys_updated_on>2019-04-29 00:06:57</sys_updated_on>
+    </sys_embedded_help_role>
+</record_update>
