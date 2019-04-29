@@ -53,7 +53,7 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>brian.griffith</sys_created_by>
         <sys_created_on>2019-04-29 00:20:09</sys_created_on>
-        <sys_id>2650f02edb457b00d449f78eaf9619f3</sys_id>
+        <sys_id>e01191aedbc57b00d449f78eaf961992</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>x_snc_peerreview_user_score</sys_name>
         <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
@@ -61,7 +61,7 @@
         <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
         <sys_update_name>sys_dictionary_x_snc_peerreview_user_score_NULL</sys_update_name>
         <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2019-04-29 05:54:39</sys_updated_on>
+        <sys_updated_on>2019-04-29 08:09:10</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
