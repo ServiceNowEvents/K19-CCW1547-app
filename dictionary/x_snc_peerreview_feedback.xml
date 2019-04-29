@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Feedback" max_length="40" name="x_snc_peerreview_feedback" type="collection">
+        <element default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Receiver" max_length="32" name="receiver" reference="sys_user" type="reference"/>
+        <element label="Score" max_length="40" name="score" type="integer"/>
+        <element label="Submitter" max_length="32" name="submitter" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="submitter"/>
+        </index>
+        <index name="index2">
+            <element name="receiver"/>
+        </index>
+    </element>
+</database>

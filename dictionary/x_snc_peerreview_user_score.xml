@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="User Score" max_length="40" name="x_snc_peerreview_user_score" type="collection">
+        <element label="Average score" max_length="40" name="average_score" type="float"/>
+        <element display="true" label="NPS score" max_length="40" name="nps_score" type="float"/>
+        <element label="User" max_length="32" name="user" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="user"/>
+        </index>
+    </element>
+</database>

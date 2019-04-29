@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_relationship">
+    <sys_relationship action="INSERT_OR_UPDATE">
+        <advanced>false</advanced>
+        <apply_to/>
+        <basic_apply_to>x_snc_peerreview_user_score</basic_apply_to>
+        <basic_query_from>x_snc_peerreview_feedback</basic_query_from>
+        <insert_callback/>
+        <name>Feedbacks to User Score</name>
+        <query_from/>
+        <query_with><![CDATA[(function refineQuery(current, parent) {
+    current.addQuery('receiver',parent.user.sys_id.toString());
+    current.orderByDesc('sys_created_on');
+})(current, parent);]]></query_with>
+        <reference_field>receiver</reference_field>
+        <related_list/>
+        <simple_reference>false</simple_reference>
+        <sys_class_name>sys_relationship</sys_class_name>
+        <sys_created_by>brian.griffith</sys_created_by>
+        <sys_created_on>2019-04-29 00:32:15</sys_created_on>
+        <sys_id>1ae7a39edb817b00d449f78eaf9619c1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Feedbacks to User Score</sys_name>
+        <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
+        <sys_update_name>sys_relationship_1ae7a39edb817b00d449f78eaf9619c1</sys_update_name>
+        <sys_updated_by>brian.griffith</sys_updated_by>
+        <sys_updated_on>2019-04-29 00:32:15</sys_updated_on>
+    </sys_relationship>
+    <sys_translated_text action="delete_multiple" query="documentkey=1ae7a39edb817b00d449f78eaf9619c1"/>
+</record_update>
