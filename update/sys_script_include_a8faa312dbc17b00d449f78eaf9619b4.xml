@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_snc_peerreview.Base</api_name>
+        <client_callable>false</client_callable>
+        <description>Base class for utilities and CRUD operations related to the Peer Review application.</description>
+        <name>Base</name>
+        <script><![CDATA[var Base = Class.create();
+Base.prototype = {
+	initialize: function() {
+	},
+	CONSTANTS : {
+		tables : {
+			feedback : "x_snc_peerreview_feedback",
+			user_score : "x_snc_peerreview_user_score"
+		}
+	},
+	getAggregate : getAggregate,
+	upsertRecord : upsertRecord,
+	insertRecord : insertRecord,
+	getRecords : getRecords,
+	getRecord : getRecord,
+	log : log,
+	logJSON : logJSON,
+	type: 'Base'
+};
+
+function upsertRecord (tableName, searchObject, updateObject){
+	var recordGR = getRecords(tableName, searchObject);
+	if(recordGR.hasNext()){
+		recordGR.next();
+		var keys = getObjectKeys(updateObject);
+		for(var i = 0; i != keys.length; i++){
+			var key = keys[i];
+			recordGR.setValue(key, updateObject[key].toString());
+		}
+		return recordGR.update();
+	}else{
+		return insertRecord(tableName, updateObject);
+	}
+}
+
+function insertRecord(tableName, valueObject){
+	var keys = getObjectKeys(valueObject);
+	var recordGR = new GlideRecord(tableName);
+	recordGR.initialize();
+	for(var i = 0; i != keys.length; i++){
+		var key = keys[i];
+		recordGR.setValue(key, valueObject[key].toString());
+	}
+	return recordGR.insert();
+}
+/*
+tableName : A valid table in the instance
+queryParams : a object IE. {"name" : "Fred Luddy") or {"name" : {"operator":"!=","value":"Abraham Lincoln"}}
+encodedQueryParams : a array or a string of encodedQueries
+*/
+function getAggregate(tableName, queryParams, aggregate, aggregateField, groupByField, encodedQueryParams){
+	queryParams = queryParams || false;
+	encodedQueryParams = encodedQueryParams || false;
+	if(!tableName){
+		gs.addErrorMessage("No Table has been specfied");
+		return;
+	}
+	var queryGA = new GlideAggregate(tableName);
+	if(groupByField){
+		queryGA.groupBy(groupByField);
+	}
+	if(aggregateField){
+		queryGA.addAggregate(aggregate, aggregateField);
+	}else{
+		queryGA.addAggregate(aggregate);
+	}
+	if(queryParams){
+		var keys = getObjectKeys(queryParams);
+		for(var i = 0; i != keys.length; i++){
+			var key = keys[i];
+			var queryObj = queryParams[key];
+			if(isString(queryObj) || isArray(queryObj)){
+				queryGA.addQuery(key, queryObj);
+			}else{
+				queryGA.addQuery(key, queryObj.operator, queryObj.value);
+			}
+		}
+	}
+	if(encodedQueryParams){
+		if(isArray(encodedQueryParams)){
+			for(var x = 0; x != encodedQueryParams.length;x++){
+				queryGA.addEncodedQuery(encodedQueryParams[x]);
+			}
+		}else{
+			queryGA.addEncodedQuery(encodedQueryParams);
+		}
+	}
+	queryGA.query();
+	if(queryGA.next()){
+		return parseFloat(aggregateField ? queryGA.getAggregate(aggregate, aggregateField) :  queryGA.getAggregate(aggregate));
+	}
+	return 0;
+}
+/*
+tableName : A valid table in the instance
+queryParams : a object IE. {"name" : "Fred Luddy") or {"name" : {"operator":"!=","value":"Abraham Lincoln"}}
+encodedQueryParams : a array or a string of encodedQueries
+orderByParams : a array or a string of field names
+orderByDescParams : a array or a string of field names
+*/
+
+function getRecords(tableName, queryParams, encodedQueryParams, orderByParams, orderByDescParams){
+	queryParams = queryParams || false;
+	encodedQueryParams = encodedQueryParams || false;
+	orderByParams = orderByParams || false;
+	orderByDescParams = orderByDescParams || false;
+	if(!tableName){
+		gs.addErrorMessage("No Table has been specfied");
+		return;
+	}
+	var queryGR = new GlideRecord(tableName);
+	if(queryParams){
+		var keys = getObjectKeys(queryParams);
+		for(var i = 0; i != keys.length; i++){
+			var key = keys[i];
+			var queryObj = queryParams[key];
+			if(isString(queryObj) || isArray(queryObj)){
+				queryGR.addQuery(key, queryObj);
+			}else{
+				queryGR.addQuery(key, queryObj.operator, queryObj.value);
+			}
+		}
+	}
+	if(encodedQueryParams){
+		if(isArray(encodedQueryParams)){
+			for(var x = 0; x != encodedQueryParams.length;x++){
+				queryGR.addEncodedQuery(encodedQueryParams[x]);
+			}
+		}else{
+			queryGR.addEncodedQuery(encodedQueryParams);
+		}
+	}
+	if(orderByParams){
+		if(isArray(orderByParams)){
+			for(var y = 0; y != orderByParams.length;y++){
+				queryGR.orderBy(orderByParams[y]);
+			}
+		}else{
+			queryGR.orderBy(orderByParams);
+		}
+	}
+	if(orderByDescParams){
+		if(isArray(orderByDescParams)){
+			for(var z = 0; z != orderByDescParams.length;z++){
+				queryGR.orderByDesc(orderByDescParams[z]);
+			}
+		}else{
+			queryGR.orderByDesc(orderByDescParams);
+		}
+	}
+	queryGR.query();
+	return queryGR;
+}
+
+function getRecord(tableName, sysID){
+	var queryGR = new GlideRecord(tableName);
+	if(queryGR.get(sysID)){
+		return queryGR;
+	}
+	return false;
+}
+
+function log(message){
+	var gdt = new GlideDateTime();
+	gs.info(gdt.getNumericValue() + "\n" + message);
+}
+
+function logJSON(jsonObject){
+	log(JSON.stringify(jsonObject,null,2));
+}
+
+function getObjectKeys (object){
+	return Object.keys(object);
+}
+
+function isString(arg){
+	return typeof arg == "string";
+}
+
+function isArray(arg){
+	return Array.isArray(arg);
+}
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>brian.griffith</sys_created_by>
+        <sys_created_on>2019-04-29 00:45:56</sys_created_on>
+        <sys_id>a8faa312dbc17b00d449f78eaf9619b4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Base</sys_name>
+        <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
+        <sys_update_name>sys_script_include_a8faa312dbc17b00d449f78eaf9619b4</sys_update_name>
+        <sys_updated_by>brian.griffith</sys_updated_by>
+        <sys_updated_on>2019-04-29 00:45:56</sys_updated_on>
+    </sys_script_include>
+</record_update>
