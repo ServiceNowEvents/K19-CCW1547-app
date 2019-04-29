@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_hub_flow">
+    <sys_hub_flow action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <acls/>
+        <active>false</active>
+        <annotation/>
+        <callable_by_client_api>false</callable_by_client_api>
+        <category/>
+        <copied_from/>
+        <copied_from_name/>
+        <description>Send email notification to receiver of new peer review feedback.</description>
+        <internal_name>notify_new_peer_review_feedback</internal_name>
+        <label_cache>[{"name":"31c39514-183d-4d76-842c-ec45f31fb10d.email","label":"1➛email","reference":"sys_email","reference_display":"email","type":"reference","base_type":"reference"},{"name":"Created_1.current","label":"Trigger➛Feedback Record","reference":"x_snc_peerreview_feedback","reference_display":"Feedback","type":"reference","base_type":"reference"},{"name":"Created_1.current.receiver.email","label":"Trigger➛Feedback Record➛Receiver➛Email","reference":"","reference_display":"Email","type":"email","base_type":"email","parent_table_name":"sys_user","column_name":"email"}]</label_cache>
+        <latest_snapshot/>
+        <master_snapshot/>
+        <name>Notify New Peer Review Feedback</name>
+        <outputs/>
+        <remote_trigger_id/>
+        <run_as>user</run_as>
+        <sc_callable>false</sc_callable>
+        <show_draft_actions>false</show_draft_actions>
+        <show_triggered_flows>false</show_triggered_flows>
+        <status>draft</status>
+        <sys_class_name>sys_hub_flow</sys_class_name>
+        <sys_created_by>brian.griffith</sys_created_by>
+        <sys_created_on>2019-04-29 05:02:49</sys_created_on>
+        <sys_id>f3662866db457b00d449f78eaf961998</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Notify New Peer Review Feedback</sys_name>
+        <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
+        <sys_update_name>sys_hub_flow_f3662866db457b00d449f78eaf961998</sys_update_name>
+        <sys_updated_by>brian.griffith</sys_updated_by>
+        <sys_updated_on>2019-04-29 05:06:28</sys_updated_on>
+        <type>flow</type>
+    </sys_hub_flow>
+    <sys_translated_text action="delete_multiple" query="documentkey=f3662866db457b00d449f78eaf961998"/>
+    <sys_variable_value action="delete_multiple" query="document_key=f3662866db457b00d449f78eaf961998"/>
+</record_update>
