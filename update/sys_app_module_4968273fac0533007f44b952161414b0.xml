@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Peer Review">f60d1caedb057b00d449f78eaf961987</application>
+        <assessment/>
+        <content_page/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>SCRIPT</link_type>
+        <map_page/>
+        <mobile_title>Roles Fix Script</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name/>
+        <order>1000000</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query>//This script will fix the missing roles&#13;
+setUserRole("Abel Tuter","admin");&#13;
+setUserRole("Fred Luddy","admin");&#13;
+setUserRole("Abraham Lincoln","user");&#13;
+setUserRole("Joe Employee","user");&#13;
+&#13;
+function setUserRole(userName, userRole){&#13;
+	var fullRoleName = "x_snc_peerreview." + userRole;&#13;
+	var userRoles = new GlideRecord("sys_user_has_role");&#13;
+	userRoles.addQuery("user.name",userName);&#13;
+	userRoles.addQuery("role.name",fullRoleName);&#13;
+	userRoles.query();&#13;
+&#13;
+	if(!userRoles.hasNext()){&#13;
+		userRoles.initialize();&#13;
+		userRoles.user.setDisplayValue(userName);&#13;
+		userRoles.role.setDisplayValue(fullRoleName);&#13;
+		userRoles.insert();&#13;
+		gs.info(fullRoleName + " granted to " + userName);&#13;
+	}&#13;
+}</query>
+        <report/>
+        <roles/>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-03 16:23:06</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>4968273fac0533007f44b952161414b0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Roles Fix Script</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
+        <sys_update_name>sys_app_module_4968273fac0533007f44b952161414b0</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-03 16:23:06</sys_updated_on>
+        <timeline_page/>
+        <title>Roles Fix Script</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>
