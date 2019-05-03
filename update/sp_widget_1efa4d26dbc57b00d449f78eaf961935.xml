@@ -79,7 +79,7 @@ header.btn-header {
 .box-right {
 	position: absolute;
   top: 0.5em;
-  right: 5vw;
+  right: 3em;
   z-index: 100;
 }
 
@@ -127,11 +127,12 @@ header.btn-header {
   border: 0.5em solid $pure_white;
   text-transform: uppercase;
   padding: 0.75em;
+  display: inline-block;
 }
 
 .btn-bar {
 	text-align: right;
-  padding: 1em 5vw;
+  padding: 1em 7em;
   margin: 0 8.21em;
 }
 
@@ -241,14 +242,14 @@ header.btn-header {
         <sys_created_by>brian.griffith</sys_created_by>
         <sys_created_on>2019-04-29 07:42:28</sys_created_on>
         <sys_id>1efa4d26dbc57b00d449f78eaf961935</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>Peer Scorecard</sys_name>
         <sys_package display_value="PeerReview" source="x_snc_peerreview">ac9b1f92db817b00d449f78eaf9619f9</sys_package>
         <sys_policy/>
         <sys_scope display_value="PeerReview">ac9b1f92db817b00d449f78eaf9619f9</sys_scope>
         <sys_update_name>sp_widget_1efa4d26dbc57b00d449f78eaf961935</sys_update_name>
-        <sys_updated_by>brian.griffith</sys_updated_by>
-        <sys_updated_on>2019-04-29 07:56:50</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-03 06:21:35</sys_updated_on>
         <template><![CDATA[<main>
   <header class="top-header">
     <div class="box-left">
