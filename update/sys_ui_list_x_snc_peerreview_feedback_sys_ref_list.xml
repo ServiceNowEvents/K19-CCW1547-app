@@ -3,7 +3,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>number</element>
-            <list_id display_value="x_snc_peerreview_feedback" element="NULL" name="x_snc_peerreview_feedback" parent="NULL" relationship="NULL" sys_domain="global" view="c658024245032300aadb28ef70de715a">5a57e4a6db457b00d449f78eaf961979</list_id>
+            <list_id display_value="x_snc_peerreview_feedback" element="NULL" name="x_snc_peerreview_feedback" parent="NULL" relationship="NULL" sys_domain="global" view="a2ea0261142033007f44c4a41cbb7ca3">5a57e4a6db457b00d449f78eaf961979</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
@@ -40,7 +40,7 @@
             <sys_updated_by>brian.griffith</sys_updated_by>
             <sys_updated_on>2019-04-29 05:06:49</sys_updated_on>
             <sys_user/>
-            <view display_value="Reference List" name="sys_ref_list">c658024245032300aadb28ef70de715a</view>
+            <view display_value="Reference List" name="sys_ref_list">a2ea0261142033007f44c4a41cbb7ca3</view>
             <view_name/>
         </sys_ui_list>
     </sys_ui_list>
